@@ -1,0 +1,31 @@
+{
+  "name": "issue-tracking-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "jsonwebtoken": "^8.4.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.23",
+    "mongoose": "^5.3.13",
+    "morgan": "^1.9.1",
+    "pino": "^5.9.0",
+    "request": "^2.88.0",
+    "shortid": "^2.2.14"
+  },
+  "devDependencies": {
+    "ngx-typeahead": "^6.2.0"
+  }
+}
