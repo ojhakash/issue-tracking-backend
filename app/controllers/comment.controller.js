@@ -7,17 +7,23 @@ const validateInput = require("../libs/paramsValidationLib");
 const check = require("../libs/checkLib");
 const token = require("../libs/tokenLib");
 const { getMongoIdOfUser } = require("../middlewares/mongoId");
+const eventEmitter = require("../libs/eventLib");
 
 // models
 const IssueModel = mongoose.model("Issue");
 
 const UserModel = mongoose.model("User");
 const CommentModel = mongoose.model("Comment");
+const WatcherModel = mongoose.model("Watcher");
 
 exports.addComment = async (req, res) => {
     try {
         //   this code is for getting user details of of commenter from mongodb
         let commentedBy = await getMongoIdOfUser(req.user.userId);
+
+        let watchers = await WatcherModel.find({ issue: req.body.issueId });
+
+        let issue = await IssueModel.findOne({ issueId: req.body.issueId });
 
         let comment = new CommentModel({
             commentId: shortid.generate(),
@@ -32,6 +38,13 @@ exports.addComment = async (req, res) => {
         if (!comment) {
             throw { message: "Error while saving" };
         }
+
+        eventEmitter.emit(
+            "connection",
+            watchers,
+            `comment added to the issue named ${issue.title}`,
+            req.body.issueId
+        );
 
         let apiResponse = response.generate(
             false,
@@ -149,6 +162,7 @@ exports.getSingleComment = (req, res) => {
         });
 }; // end get single Comment
 
+/* Edit a single comment */
 exports.editComment = (req, res) => {
     let options = req.body;
     CommentModel.update({ commentId: req.params.commentId }, options).exec(
@@ -188,7 +202,7 @@ exports.editComment = (req, res) => {
     ); // end comment model update
 }; // end edit comment
 
-//delete comment
+/* Get a single comment */
 exports.removeComment = async (req, res) => {
     try {
         let comment = await CommentModel.findOne({

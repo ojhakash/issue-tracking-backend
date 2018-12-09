@@ -51,7 +51,7 @@ let getAllUser = (req, res) => {
 
 /* Get single user details */
 let getSingleUser = (req, res) => {
-    UserModel.findOne({ userId: req.params.userId })
+    UserModel.findOne({ userId: req.user.userId })
         .select("-password -__v -_id")
         .lean()
         .exec((err, result) => {
@@ -158,7 +158,6 @@ let editUser = (req, res) => {
 }; // end edit user
 
 // start user signup function
-
 let signUpFunction = (req, res) => {
     let validateUserInput = () => {
         return new Promise((resolve, reject) => {
@@ -521,9 +520,7 @@ let loginFunction = (req, res) => {
             res.status(err.status);
             res.send(err);
         });
-};
-
-// end of the login function
+}; // end of the login function
 
 /**
  * function to logout user.

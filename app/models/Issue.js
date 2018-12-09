@@ -39,7 +39,12 @@ let issueSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: ""
-    }
+    },
+    watchers: [
+        {
+            type: String
+        }
+    ]
 });
 
 issueSchema.methods.toJSON = function() {

@@ -8,6 +8,7 @@ const http = require("http");
 const cors = require("cors");
 const appConfig = require("./config/appConfig");
 const logger = require("./app/libs/loggerLib");
+const { setServer } = require("./app/libs/socketLib");
 const routeLoggerMiddleware = require("./app/middlewares/routeLogger.js");
 const globalErrorMiddleware = require("./app/middlewares/appErrorHandler");
 const mongoose = require("mongoose");
@@ -37,16 +38,6 @@ app.options(
     })
 );
 
-// app.all("*", function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "*");
-//     res.header(
-//         "Access-Control-Allow-Headers",
-//         "Origin, X-Requested-With, Content-Type, Accept"
-//     );
-//     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-//     next();
-// });
-
 //Bootstrap models
 fs.readdirSync(modelsPath).forEach(function(file) {
     if (~file.indexOf(".js")) require(modelsPath + "/" + file);
@@ -73,15 +64,14 @@ app.use(globalErrorMiddleware.globalNotFoundHandler);
  */
 
 const server = http.createServer(app);
+// io = require("socket.io").listen(app);
+setServer(server);
 // start listening to http server
-console.log(appConfig);
+// console.log(appConfig);
 server.listen(appConfig.port);
 server.on("error", onError);
 server.on("listening", onListening);
-
 // end server listening code
-
-// end socketio connection handler
 
 /**
  * Event listener for HTTP server "error" event.
@@ -140,7 +130,7 @@ function onListening() {
     );
     let db = mongoose.connect(
         appConfig.db.uri,
-        { useMongoClient: true }
+        { useNewUrlParser: true }
     );
 }
 
