@@ -4,7 +4,7 @@ appConfig.port = 3000;
 appConfig.allowedCorsOrigin = "*";
 appConfig.env = "dev";
 appConfig.db = {
-    uri: "mongodb://127.0.0.1:27017/issutTrackingDb"
+    uri: process.env.ME_CONFIG_MONGODB_URL
 };
 appConfig.apiVersion = "/api/v1";
 
