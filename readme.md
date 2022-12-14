@@ -8,6 +8,6 @@
 
 Your app will be running on http://localhost:4050/
 
-To visit the api-documentation please got to http://localhost:5000/
+To see the api-documentation please open - http://localhost:5000/
 
-	![alt text](https://github.com/ojhakash/issue-tracking-backend/blob/master/api-doc-issue-tracking-backend.png "API DOC")
+![Api-Doc](api-doc-issue-tracking-backend.png "API DOC")
